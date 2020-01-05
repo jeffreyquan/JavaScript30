@@ -58,22 +58,27 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-  window.addEventListener('keydown', e => {
-    const audio = document.querySelector(`audio[data-key="${ e.keyCode }"]`);
-    audio.currentTime = 0;
-    audio.play();
 
-    const div = document.querySelector(`div[data-key="${ e.keyCode }"]`);
-    div.classList.add('playing');
-  })
+  function playSound(e) {
+      const audio = document.querySelector(`audio[data-key="${ e.keyCode }"]`);
+      if (!audio) return; // stop the function from running all together
+      audio.currentTime = 0; // rewinds the audio element to the start when the event is fired in succession
+      audio.play();
 
-  window.addEventListener('keyup', e => {
-    const audio = document.querySelector(`audio[data-key="${ e.keyCode }"]`);
-    audio.play();
+      const key = document.querySelector(`.key[data-key="${ e.keyCode }"]`);
+      key.classList.add('playing'); // equivalent to addClass in jQuery
+  }
 
-    const div = document.querySelector(`div[data-key="${ e.keyCode }"]`);
-    div.classList.remove('playing');
-  })
+  // From Wes Bos' solution
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; // skip it if it's not a transform
+    this.classList.remove('playing');
+  }
+
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
+
 </script>
 
 
