@@ -71,7 +71,8 @@
   </style>
 
   <script>
-  
+
+    // Wes uses .querySelector
     const secondHand = document.getElementsByClassName('second-hand')[0];
     const minuteHand = document.getElementsByClassName('min-hand')[0];
     const hourHand = document.getElementsByClassName('hour-hand')[0];
@@ -87,6 +88,8 @@
       minuteHand.style.transform = `rotate(${ minutesDegrees }deg)`;
 
       let hours = now.getHours();
+
+      // takes into account that getHours returns a number from 0 to 23
       if (hours > 12) {
         hours -= 12;
       }
